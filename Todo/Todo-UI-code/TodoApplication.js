@@ -224,9 +224,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (itemName.length === 0) {
             setError(itemInput, 'Task is required');
+            setTimeout(()=>{
+                setError(itemInput, '')
+            },2000)
             return;
         } else {
-            setError(itemInput, '');
             const currenItemIndex = document.querySelector("#citem").value;
             if (currenItemIndex) {
                 updateItem(currenItemIndex, itemName);
