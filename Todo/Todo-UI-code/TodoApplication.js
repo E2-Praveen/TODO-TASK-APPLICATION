@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
             setError(itemInput, 'Task is required');
             setTimeout(()=>{
                 setError(itemInput, '')
-            },2000)
+            },2000) 
             return;
         } else {
             const currenItemIndex = document.querySelector("#citem").value;
