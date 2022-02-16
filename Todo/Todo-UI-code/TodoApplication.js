@@ -40,11 +40,19 @@ const updateItem = async function (itemIndex, newValue) {
     })
         .then((response) => response.json())
         .then((data) => {
-            iziToast.success({
-                title: 'Task',
-                message: data.message,
-                position: 'topRight'
-            });
+            if (data.status == "success") {
+                iziToast.success({
+                    title: 'Task',
+                    message: data.message,
+                    position: 'topRight',
+                });
+            } else {
+                iziToast.error({
+                    title: 'Task',
+                    message: data.message,
+                    position: 'topRight',
+                });
+            }
             getList(newvar);
         })
         .catch(error => console.error('Unable to update item.', error));
@@ -65,11 +73,19 @@ const removeData = async function (itemData) {
     })
         .then((response) => response.json())
         .then((data) => {
-            iziToast.success({
-                title: 'Task',
-                message: data.message,
-                position: 'topRight'
-            });
+            if (data.status == "success") {
+                iziToast.success({
+                    title: 'Task',
+                    message: data.message,
+                    position: 'topRight',
+                });
+            } else {
+                iziToast.error({
+                    title: 'Task',
+                    message: data.message,
+                    position: 'topRight',
+                });
+            }
             getList(newvar);
         })
         .catch(error => console.error('Unable to Delte item.', error));
@@ -101,11 +117,19 @@ const handleItem = function (itemData) {
                 })
                     .then((response) => response.json())
                     .then((data) => {
-                        iziToast.success({
-                            title: 'Task',
-                            message: data.message,
-                            position: 'topRight'
-                        });
+                        if (data.status == "success") {
+                            iziToast.success({
+                                title: 'Task',
+                                message: data.message,
+                                position: 'topRight',
+                            });
+                        } else {
+                            iziToast.error({
+                                title: 'Task',
+                                message: data.message,
+                                position: 'topRight',
+                            });
+                        }
                     })
                     .catch(error => console.error('Unable to update item.', error));
 
@@ -224,9 +248,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (itemName.length === 0) {
             setError(itemInput, 'Task is required');
-            setTimeout(()=>{
+            setTimeout(() => {
                 setError(itemInput, '')
-            },2000) 
+            }, 2000)
             return;
         } else {
             const currenItemIndex = document.querySelector("#citem").value;
@@ -249,11 +273,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                     .then((response) => response.json())
                     .then((data) => {
-                        iziToast.success({
-                            title: 'Task',
-                            message: data.message,
-                            position: 'topRight',
-                        });
+                        if (data.status == "success") {
+                            iziToast.success({
+                                title: 'Task',
+                                message: data.message,
+                                position: 'topRight',
+                            });
+                        } else {
+                            iziToast.error({
+                                title: 'Task',
+                                message: data.message,
+                                position: 'topRight',
+                            });
+                        }
+
                     })
                     .catch((error) => {
                         console.error('Error:', error);
