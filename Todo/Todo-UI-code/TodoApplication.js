@@ -48,7 +48,7 @@ const updateItem = async function (itemIndex, newValue) {
                 });
             } else {
                 iziToast.error({
-                    title: 'Task',
+                    title: 'Error',
                     message: data.message,
                     position: 'topRight',
                 });
@@ -81,7 +81,7 @@ const removeData = async function (itemData) {
                 });
             } else {
                 iziToast.error({
-                    title: 'Task',
+                    title: 'Error',
                     message: data.message,
                     position: 'topRight',
                 });
@@ -176,6 +176,15 @@ const getList = async function () {
         .then((data) => {
             console.log(data)
             newvar = data
+            if (data.status == "success") {
+                return;
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    message: data.message,
+                    position: 'topRight',
+                });
+            }
         })
         .catch((error) => {
             console.log('Error:', error)
@@ -273,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                     .then((response) => response.json())
                     .then((data) => {
+                        console.log(data)
                         if (data.status == "success") {
                             iziToast.success({
                                 title: 'Task',

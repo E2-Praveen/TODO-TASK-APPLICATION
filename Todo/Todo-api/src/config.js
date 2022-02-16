@@ -1,11 +1,9 @@
-var express = require('express');
-const { router } = require('./app');
-const res = new express.response()
+function response(message, status) {
+    var data = {
+        message: message,
+        status: status
+    }
+    return data
+}
 
-
-
-router.post('/addTask',(req,res)=> {
-    res.status(200).send({message , status})
-})
-
-module.exports = res
+module.exports = response

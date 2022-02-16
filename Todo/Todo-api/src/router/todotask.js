@@ -1,29 +1,29 @@
 const express = require('express')
 const Task = require('../models/todotask')
 const router = new express.Router()
-
+const response = require('../config')
 
 //Create Task Module
 router.post('/newTask', async (req, res) => {
     const task = await new Task(req.body)
     try {
         await task.save()
-        res.status(201).send({ message: "Added Successfully", status : "success"})
+        res.status(201).send(response("AddedSuccessfully", "success"))
     } catch (e) {
-        res.status(400).send({message:"Path 'task' is required", status: "Failure"})
+        res.status(400).send(response(e._message, "Failure"))
     }
 })
 
 //Delete Task Module
 router.delete('/task/deleteTask', async (req, res) => {
     try {
-        const task = await Task.findOneAndDelete({ _id: req.body._id })
+        const task = await Task.findByIdAndDelete({ _id: req.body._id })
         if (!task) {
-            res.status(404).send({ message: 'No Task Found..!' , status: "Failure"})
+            res.status(404).send(response('No Task Found..!', "Failure"))
         }
-        res.status(200).send({ message: "Deleted successfully", status : "success"})
+        res.status(200).send(response("Deleted successfully", "success"))
     } catch (e) {
-        res.status(500).send({message:"Path is required", status: "Failure"})
+        res.status(500).send(response(e.message, "Failure"))
     }
 })
 
@@ -36,26 +36,30 @@ router.put('/task/taskUpdated', async (req, res) => {
     const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
-        res.status(400).send({ message: 'Invalid Updates..!' , status: "Failure" })
+        res.status(400).send(response('Invalid Updates..!', "Failure"))
     }
 
     try {
         const task = await Task.findById(req.body._id)
         if (!task) {
-            res.status(404).send({ message: 'Unable to find task..!' , status: "Failure" })
+            res.status(404).send(response("Unable to find task..!", "Failure"))
         }
         updates.forEach((update) => task[update] = req.body[update])
         await task.save()
-        res.status(200).send({ message: "Modified successfully", status : "success"})
+        res.status(200).send(response("Modified successfully", "success"))
     } catch (e) {
-        res.status(400).send({message:"Path is required", status: "Failure"})
+        res.status(400).send(response(e.message, "Failure"))
     }
 })
 
 //Get All task
 router.get('/fetchingTask', async (req, res) => {
-    const task = await Task.find()
-    res.send(task)
+    try {
+        const task = await Task.find()
+        res.send(task)
+    } catch (e) {
+        res.status(404).send(response("Unable to Fetch the Task", "Failure"))
+    }
 })
 
 module.exports = router
