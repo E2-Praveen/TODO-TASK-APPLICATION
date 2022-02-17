@@ -216,6 +216,12 @@ const getList = async function () {
     }
 };
 
+// Fetch call for every 5 Seconds
+// window.addEventListener('load', function () {
+//     var fetchInterval = 5000;
+//     setInterval(getList, fetchInterval);
+// });
+
 const getList2 = function (newvar) {
     itemList.innerHTML = "";
     if (newvar.length > 0) {
@@ -300,6 +306,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     })
                     .catch((error) => {
                         console.error('Error:', error);
+                        iziToast.error({
+                            title: 'Task',
+                            message: error,
+                            position: 'topRight',
+                        });
                     });
                 newvar.push(itemObj);
                 getList(newvar);
