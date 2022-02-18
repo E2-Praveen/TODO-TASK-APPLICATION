@@ -1,0 +1,130 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,body{
+    width: 100%;
+    height: 100%;
+    background-color: #98b9da;
+}
+
+.container{
+    width: 100%;
+    height: 100%;
+}
+
+.alignment{
+    width: 100%;
+    height: 100%
+}
+
+#itemForm{
+    width: 100%;
+    height: 20%;
+    align-items: center;
+    justify-content: center;
+    display: grid;
+}
+
+.navtab{
+    width: 100%;
+    height: 10%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.todolistli{
+    width: 100%;
+    height: 70%;
+    justify-content: center;
+    align-items: flex-start;
+    display: flex;
+}
+
+
+
+
+
+.header{
+    width: 100%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.input-group{
+    width: 100%;
+    height: 60%;
+}
+
+#itemInput{
+    border: 6px solid white;
+    border-radius: 4px;
+}
+
+.addbutton{
+    border: 6px solid crimson;
+    background-color:crimson;
+    border-radius: 4px;
+}
+
+
+
+
+
+
+.nav-nav-tabs{
+    width: 100%;
+    height: 100%;
+    justify-content:center;
+    align-items: center;
+    display:flex;
+    list-style-type: none;
+}
+
+.nav-item{
+    width: 100%;
+    height: 40%;
+    background-color: white;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.active{
+    background-color: crimson;
+    color: white;
+}
+
+
+
+
+
+
+
+.listitems{
+    width: 100%;
+    height: 100%;
+}
+
+#itemList{
+    width: 100%;
+    height: 100%;
+}
+
+.list-group-item{
+    width: 100%;
+    height: 10%;
+
+}
+
+
+.icons{
+    display: flex; 
+    justify-content: right;
+    float: right;
+}
