@@ -55,7 +55,13 @@ const updateItem = async function (itemIndex, newValue) {
             }
             getList(newvar);
         })
-        .catch(error => console.error('Unable to update item.', error));
+        .catch(error => {
+            iziToast.error({
+                title: 'Error',
+                message: "something went wrong",
+                position: 'topRight',
+            });
+        });
 };
 
 const removeData = async function (itemData) {
@@ -88,7 +94,13 @@ const removeData = async function (itemData) {
             }
             getList(newvar);
         })
-        .catch(error => console.error('Unable to Delte item.', error));
+        .catch(error => {
+            iziToast.error({
+                title: 'Error',
+                message: "something went wrong",
+                position: 'topRight',
+            });
+        });
 }
 
 const handleItem = function (itemData) {
@@ -131,7 +143,13 @@ const handleItem = function (itemData) {
                             });
                         }
                     })
-                    .catch(error => console.error('Unable to update item.', error));
+                    .catch(error => {
+                        iziToast.error({
+                            title: 'Error',
+                            message: "something went wrong",
+                            position: 'topRight',
+                        });
+                    });
 
                 const iconClass = currentItem.completed ? "bi-check-circle-fill" : "bi-check-circle";
                 this.firstElementChild.classList.replace(currentClass, iconClass);
@@ -174,20 +192,17 @@ const getList = async function () {
     })
         .then((response) => response.json())
         .then((data) => {
-            console.log(data)
             newvar = data
             if (data.status == "success") {
                 return;
-            } else {
-                iziToast.error({
-                    title: 'Error',
-                    message: data.message,
-                    position: 'topRight',
-                });
             }
         })
         .catch((error) => {
-            console.log('Error:', error)
+            iziToast.error({
+                title: 'Error',
+                message: "something went wrong",
+                position: 'topRight',
+            });
         })
 
     if (newvar.length > 0) {
@@ -263,9 +278,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (itemName.length === 0) {
             setError(itemInput, 'Task is required');
-            // setTimeout(() => {
-            //     setError(itemInput, '')
-            // }, 2000)
+            setTimeout(() => {
+                setError(itemInput, '')
+            }, 2000)
             return;
         } else {
             const currenItemIndex = document.querySelector("#citem").value;
@@ -288,7 +303,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                     .then((response) => response.json())
                     .then((data) => {
-                        console.log(data)
                         if (data.status == "success") {
                             iziToast.success({
                                 title: 'Task',
@@ -305,10 +319,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     })
                     .catch((error) => {
-                        console.error('Error:', error);
                         iziToast.error({
-                            title: 'Task',
-                            message: error,
+                            title: 'Error',
+                            message: "something went wrong",
                             position: 'topRight',
                         });
                     });
