@@ -27,7 +27,7 @@ const updateItem = async function (itemIndex, newValue) {
     newItem.task = newValue;
     newvar.splice(itemIndex, 1, newItem);
 
-    fetch(`http://localhost:3000/task/taskUpdated`, {
+    fetch(`http://localhost:3000/updateTask`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const updateItem = async function (itemIndex, newValue) {
         body: JSON.stringify({
             task: newValue,
             completed: newItem.completed,
-            _id: newItem._id
+            id: newItem.id
         })
     })
         .then((response) => response.json())
@@ -65,8 +65,8 @@ const updateItem = async function (itemIndex, newValue) {
 };
 
 const removeData = async function (itemData) {
-
-    await fetch('http://localhost:3000/task/deleteTask', {
+    console.log(itemData.id)
+    await fetch('http://localhost:3000/deleteTask', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ const removeData = async function (itemData) {
         body: JSON.stringify({
             task: itemData.task,
             completed: itemData.completed,
-            _id: itemData._id
+            id: itemData.id
         })
     })
         .then((response) => response.json())
@@ -116,7 +116,7 @@ const handleItem = function (itemData) {
                 currentItem.completed = currentItem.completed ? false : true;
                 newvar.splice(itemIndex, 1, currentItem);
 
-                fetch(`http://localhost:3000/task/taskUpdated`, {
+                fetch(`http://localhost:3000/updateTask`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ const handleItem = function (itemData) {
                     body: JSON.stringify({
                         task: currentItem.task,
                         completed: currentItem.completed,
-                        _id: currentItem._id
+                        id: currentItem.id
                     })
                 })
                     .then((response) => response.json())
@@ -184,7 +184,7 @@ const handleItem = function (itemData) {
 
 const getList = async function () {
     itemList.innerHTML = "";
-    await fetch('http://localhost:3000/fetchingTask', {
+    await fetch('http://localhost:3000/fetchTask', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const getList = async function () {
     })
         .then((response) => response.json())
         .then((data) => {
-            newvar = data
+            newvar = data.message
             if (data.status == "success") {
                 return;
             }
@@ -293,8 +293,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     createdAt: new Date(),
                     completed: false,
                 };
-
-                fetch('http://localhost:3000/newTask', {
+                fetch('http://localhost:3000/createTask', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -316,7 +315,6 @@ document.addEventListener("DOMContentLoaded", () => {
                                 position: 'topRight',
                             });
                         }
-
                     })
                     .catch((error) => {
                         iziToast.error({

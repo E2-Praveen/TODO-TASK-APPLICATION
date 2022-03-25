@@ -1,8 +1,8 @@
 const express = require('express')
-require('./src/db/mongoose')
+require('./src/db/mariadb')
 const taskRouter = require('./src/router/todotask')
 
-const port = process.env.PORT || 3000
+const port = 3000
 
 const app = express()
 app.use(function (req, res, next) {
@@ -13,6 +13,7 @@ app.use(function (req, res, next) {
 });
 app.use(express.json())
 app.use(taskRouter)
+
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)

@@ -25,12 +25,12 @@ html,body{
 
 #itemForm{
     width: 100%;
-    height: 20%;
+    height: 22%;
 }
 
 .header{
     width: 100%;
-    height: 40%;
+    height: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,25 +38,33 @@ html,body{
 
 .input-group{
     width: 100%;
-    height: 65%;
-    display: flex;
+    height: 50%;
+    display: inherit;
     align-items: center;
     justify-content: space-between;
 }
 
+.error{
+    display: flex;
+    color: red;
+    font-size: 17px;
+    height: 11px;
+}
+
 #itemInput{
     width: 73%;
-    height: 40%;
+    height: 45%;
     border: 6px solid white;
     border-radius: 4px;
 }
 
 .addbutton{
     width: 25%;
-    height: 40%;
-    border: 6px solid crimson;
+    height: 45%;
+    border: 9px solid crimson;
     border-radius: 4px;
     background-color: crimson;
+    font-size: x-small;
 }
 
 .navtab{
@@ -85,6 +93,11 @@ html,body{
     display: flex;
 }
 
+.nav-link{
+    text-decoration: none;
+    color: black;
+}
+
 .active{
     width: 100%;
     height: 100%;
@@ -99,7 +112,7 @@ html,body{
 
 .todolistli{
     width: 100%;
-    height: 70%;
+    height: 68%;
 }
 
 .listitems{
@@ -170,7 +183,7 @@ span.title{
     margin-left: 3px;
 }
 
-@media only screen and (max-width: 420px) {
+@media only screen and (max-width: 768px) {
     .alignment{
         width: 80%;   
     }

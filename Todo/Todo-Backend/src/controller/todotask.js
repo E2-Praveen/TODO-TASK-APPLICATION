@@ -1,56 +1,46 @@
-const Task = require('../models/todotask')
-const response = require('../../config')
+const responseMSG = require('../../config')
+const TodoTaskDAO = require('../dao/todotask')
 
-
-async function addTask(req, res) {
-    const task = await new Task(req.body)
-    try {
-        await task.save()
-        res.status(201).send(response.successResponse("AddedSuccessfully"))
-    } catch (e) {
-        res.status(400).send(response.failureResponse(e._message))
-    }
+function createTask(req, res) {
+    return TodoTaskDAO.createTask(req.body).then(function () {
+        res.status(201).send(responseMSG.successResponse("Added successfully"))
+    }).catch(e => {
+        res.status(400).send(responseMSG.failureResponse(e.message))
+    })
 }
 
-async function deleteTask(req, res) {
-    try {
-        const task = await Task.findByIdAndDelete({ _id: req.body._id })
-        if (!task) {
-            res.status(404).send(response.failureResponse('No Task Found..!'))
-        }
-        res.status(200).send(response.successResponse("Deleted successfully"))
-    } catch (e) {
-        res.status(500).send(response.failureResponse(e.message))
-    }
+function deleteTask(req,res){
+    return TodoTaskDAO.deleteTask(req.body).then(function (){
+        res.status(200).send(responseMSG.successResponse("Deleted successfully"))
+    }).catch(e =>{
+        res.status(400).send(responseMSG.failureResponse(e.message))
+    })
 }
 
-async function taskUpdated(req, res) {
-    const updates = Object.keys(req.body)
-    try {
-        const task = await Task.findById(req.body._id)
-        if (!task) {
-            res.status(404).send(response.failureResponse("Unable to find task..!"))
-        }
-        updates.forEach((update) => task[update] = req.body[update])
-        await task.save()
-        res.status(200).send(response.successResponse("Modified successfully"))
-    } catch (e) {
-        res.status(400).send(response.failureResponse(e.message))
-    }
+function updateTask(req,res){
+    return TodoTaskDAO.updateTask(req.body).then(function (){
+        res.status(200).send(responseMSG.successResponse("Modified successfully"))
+    }).catch(e =>{
+        // console.log(e.message)
+        // console.log(e.name)
+        // console.log(e.description)
+        // console.log(e.stack)
+        // message = JSON.stringify(e.message)
+        res.status(400).send(responseMSG.failureResponse(e.message))
+    })
 }
 
-async function fetchingTask(req, res) {
-    try {
-        const task = await Task.find()
-        res.status(200).send(task)
-    } catch (e) {
-        res.status(404).send(response.failureResponse("Unable to Fetch the Task"))
-    }
+function fetchTask(req, res) {
+    return TodoTaskDAO.fetchTask().then(function (response) {
+        res.status(200).send(responseMSG.successResponse(response))
+    }).catch(e => {
+        res.status(404).send(responseMSG.failureResponse("Unable to Fetch the Task"))
+    })
 }
 
 module.exports = {
-    addTask: addTask,
+    createTask: createTask,
+    fetchTask: fetchTask,
     deleteTask: deleteTask,
-    taskUpdated: taskUpdated,
-    fetchingTask: fetchingTask
+    updateTask: updateTask
 }

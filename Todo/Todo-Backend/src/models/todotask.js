@@ -1,19 +1,19 @@
-const mongoose = require('mongoose')
-
-const TaskSchema = new mongoose.Schema({
-    task: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    },
-}, {
-    timestamps: true
-})
-
-const Task = mongoose.model('Task', TaskSchema)
-
-module.exports = Task
+module.exports = (sequelize, type) => {
+    return sequelize.define('TodoTasks', {
+        id: {
+            type: type.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        task: {
+            type: type.STRING,
+            required: true
+        },
+        completed: {
+            type: type.BOOLEAN,
+            defaultValue: false
+        },
+    }, {
+        timestamps: true
+    })
+}
