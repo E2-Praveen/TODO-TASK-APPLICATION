@@ -1,6 +1,7 @@
-function successResponse(message) {
+function successResponse(data, message) {
     var data = {
         message: message,
+        "data": data,
         "status": "success"
     }
     return data

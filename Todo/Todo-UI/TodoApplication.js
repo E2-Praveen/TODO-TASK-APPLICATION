@@ -65,7 +65,6 @@ const updateItem = async function (itemIndex, newValue) {
 };
 
 const removeData = async function (itemData) {
-    console.log(itemData.id)
     await fetch('http://localhost:3000/deleteTask', {
         method: 'DELETE',
         headers: {
@@ -192,7 +191,7 @@ const getList = async function () {
     })
         .then((response) => response.json())
         .then((data) => {
-            newvar = data.message
+            newvar = data.data
             if (data.status == "success") {
                 return;
             }
