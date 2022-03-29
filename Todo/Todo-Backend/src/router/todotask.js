@@ -7,6 +7,6 @@ router.post('/createTask', todoTaskController.createTask);
 router.get('/fetchTask', todoTaskController.fetchTask);
 router.delete('/deleteTask', todoTaskController.deleteTask);
 router.put('/updateTask', todoTaskController.updateTask);
-
+router.delete('/deleteAllTask', todoTaskController.deleteAllTask)
 
 module.exports = router

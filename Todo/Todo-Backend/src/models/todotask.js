@@ -1,6 +1,6 @@
 module.exports = (sequelize, type) => {
     return sequelize.define('TodoTasks', {
-        id: {
+        task_id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true

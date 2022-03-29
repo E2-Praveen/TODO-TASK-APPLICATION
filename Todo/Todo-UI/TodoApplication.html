@@ -35,7 +35,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control" id="itemInput" autocomplete="off" value=""
                         placeholder="Please enter task...">
-                    <button class="addbutton">ADD TASK</button>
+                    <button class="addbutton" title="Add Task">ADD TASK</button>
                     <div class="error"></div>
                 </div>
             </form>
@@ -56,6 +56,7 @@
 
             <div class="todolistli">
                 <div class="listitems">
+                    <button class="deleteAll" onclick="deleteAll()">DeleteAll</button>
                     <ul class="list-group list-group-flush" id="itemList"></ul>
                     <input type="hidden" id="filterType" value="all">
                     <input type="hidden" id="citem" value="">

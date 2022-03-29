@@ -22,7 +22,7 @@ const getItemsFilter = function (type) {
     getList2(filterItems);
 };
 
-const updateItem = async function (itemIndex, newValue) {
+const updateItem = function (itemIndex, newValue) {
     const newItem = newvar[itemIndex];
     newItem.task = newValue;
     newvar.splice(itemIndex, 1, newItem);
@@ -35,21 +35,24 @@ const updateItem = async function (itemIndex, newValue) {
         body: JSON.stringify({
             task: newValue,
             completed: newItem.completed,
-            id: newItem.id
+            task_id: newItem.task_id
         })
     })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.status == "success") {
+        .then((response) => response.json().then(data =>({
+            data: data,
+            status: response.status
+        })))
+        .then((res) => {
+            if (res.status == 200) {
                 iziToast.success({
                     title: 'Task',
-                    message: data.message,
+                    message: res.data.message,
                     position: 'topRight',
                 });
             } else {
                 iziToast.error({
                     title: 'Error',
-                    message: data.message,
+                    message: res.data.message,
                     position: 'topRight',
                 });
             }
@@ -64,8 +67,8 @@ const updateItem = async function (itemIndex, newValue) {
         });
 };
 
-const removeData = async function (itemData) {
-    await fetch('http://localhost:3000/deleteTask', {
+const removeData = function (itemData) {
+    fetch('http://localhost:3000/deleteTask', {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -73,21 +76,24 @@ const removeData = async function (itemData) {
         body: JSON.stringify({
             task: itemData.task,
             completed: itemData.completed,
-            id: itemData.id
+            task_id: itemData.task_id
         })
     })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.status == "success") {
+        .then((response) => response.json().then(data=>({
+            data: data,
+            status: response.status
+        })))
+        .then((res) => {
+            if (res.status == 200) {
                 iziToast.success({
                     title: 'Task',
-                    message: data.message,
+                    message: res.data.message,
                     position: 'topRight',
                 });
             } else {
                 iziToast.error({
                     title: 'Error',
-                    message: data.message,
+                    message: res.data.message,
                     position: 'topRight',
                 });
             }
@@ -123,26 +129,29 @@ const handleItem = function (itemData) {
                     body: JSON.stringify({
                         task: currentItem.task,
                         completed: currentItem.completed,
-                        id: currentItem.id
+                        task_id: currentItem.task_id
                     })
                 })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.status == "success") {
+                    .then((response) => response.json().then(data=>({
+                        data: data,
+                        status: response.status
+                    })))
+                    .then((res) => {
+                        if (res.status == 200) {
                             iziToast.success({
                                 title: 'Task',
-                                message: data.message,
+                                message: res.data.message,
                                 position: 'topRight',
                             });
                         } else {
                             iziToast.error({
                                 title: 'Task',
-                                message: data.message,
+                                message: res.data.message,
                                 position: 'topRight',
                             });
                         }
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         iziToast.error({
                             title: 'Error',
                             message: "something went wrong",
@@ -182,6 +191,7 @@ const handleItem = function (itemData) {
 };
 
 const getList = async function () {
+
     itemList.innerHTML = "";
     await fetch('http://localhost:3000/fetchTask', {
         method: 'GET',
@@ -189,14 +199,23 @@ const getList = async function () {
             'Content-Type': 'application/json',
         }
     })
-        .then((response) => response.json())
-        .then((data) => {
-            newvar = data.data
-            if (data.status == "success") {
+        .then((response) => response.json().then(data => ({
+            data: data,
+            status: response.status
+        })))
+        .then((res) => {
+            newvar = res.data.data
+            if (res.status == 200) {
                 return;
+            }else{
+                iziToast.error({
+                    title: 'Error',
+                    message: res.data.message,
+                    position: 'topRight',
+                });
             }
         })
-        .catch((error) => {
+        .catch(() => {
             iziToast.error({
                 title: 'Error',
                 message: "something went wrong",
@@ -212,9 +231,9 @@ const getList = async function () {
                 `<li class="list-group-item">
           <span class="title" data-time="${item.createdAt}">${item.task}</span> 
           <span class="icons">
-              <a href="#" data-done><i class="bi ${iconClass} green"></i></a>
-              <a href="#" data-edit><i class="fas fa-edit"></i></a>
-              <a href="#" data-delete><i class="fas fa-trash-alt"></i></a>
+              <a href="#" data-done title="click to complete"><i class="bi ${iconClass} green"></i></a>
+              <a href="#" data-edit title="click to Edit"><i class="fas fa-edit"></i></a>
+              <a href="#" data-delete title="click to delete"><i class="fas fa-trash-alt"></i></a>
           </span>
         </li>`
             );
@@ -246,9 +265,9 @@ const getList2 = function (newvar) {
                 `<li class="list-group-item">
           <span class="title" data-time="${item.createdAt}">${item.task}</span> 
           <span class="icons">
-              <a href="#" data-done><i class="bi ${iconClass} green"></i></a>
-              <a href="#" data-edit><i class="fas fa-edit"></i></a>
-              <a href="#" data-delete><i class="fas fa-trash-alt"></i></a>
+              <a href="#" data-done title="click to complete"><i class="bi ${iconClass} green"></i></a>
+              <a href="#" data-edit title="click to Edit"><i class="fas fa-edit"></i></a>
+              <a href="#" data-delete title="click to delete"><i class="fas fa-trash-alt"></i></a>
           </span>
         </li>`
             );
@@ -289,8 +308,6 @@ document.addEventListener("DOMContentLoaded", () => {
             } else {
                 const itemObj = {
                     task: itemName,
-                    createdAt: new Date(),
-                    completed: false,
                 };
                 fetch('http://localhost:3000/createTask', {
                     method: 'POST',
@@ -299,23 +316,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     },
                     body: JSON.stringify(itemObj),
                 })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.status == "success") {
+                    .then((response) => response.json().then(data => ({
+                        data: data,
+                        status: response.status
+                    })))
+                    .then((res) => {
+                        if (res.status == 201) {
                             iziToast.success({
                                 title: 'Task',
-                                message: data.message,
+                                message: res.data.message,
                                 position: 'topRight',
                             });
                         } else {
                             iziToast.error({
                                 title: 'Task',
-                                message: data.message,
+                                message: res.data.message,
                                 position: 'topRight',
                             });
                         }
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         iziToast.error({
                             title: 'Error',
                             message: "something went wrong",
@@ -347,3 +366,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     getList(newvar);
 });
+
+function deleteAll() {
+    if (newvar.length > 0) {
+        if (confirm("Are sure want to delete All Task") == true) {
+            fetch('http://localhost:3000/deleteAllTask', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then((response) => response.json().then(data=>({
+                    data: data,
+                    status: response.status
+                })))
+                .then((res) => {
+                    if (res.status == 200) {
+                        iziToast.success({
+                            title: 'All Task',
+                            message: res.data.message,
+                            position: 'topRight',
+                        });
+                    } else {
+                        iziToast.error({
+                            title: 'Error',
+                            message: res.data.message,
+                            position: 'topRight',
+                        });
+                    }
+                    getList(newvar);
+                })
+                .catch((error) => {
+                    iziToast.error({
+                        title: 'Error',
+                        message: "something went wrong",
+                        position: 'topRight',
+                    });
+                });
+        } else {
+            return;
+        }
+    } else {
+        iziToast.error({
+            title: 'Failure',
+            message: "No Task Available",
+            position: 'topRight',
+        });
+    }
+}

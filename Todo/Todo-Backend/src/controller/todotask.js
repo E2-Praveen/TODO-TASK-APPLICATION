@@ -1,10 +1,10 @@
-const { response } = require('express')
 const responseMSG = require('../../config')
 const TodoTaskDAO = require('../dao/todotask')
 
 function createTask(req, res) {
     return TodoTaskDAO.createTask(req.body).then(function () {
-        res.status(201).send(responseMSG.successResponse(null,"Added successfully"))
+        res.status(201).send(responseMSG.successResponse(null,"Added successfully"));
+        res.statuscode(201);
     }).catch(e => {
         res.status(400).send(responseMSG.failureResponse(e.message))
     })
@@ -34,9 +34,18 @@ function fetchTask(req, res) {
     })
 }
 
+function deleteAllTask(req,res){
+    return TodoTaskDAO.deleteAllTask().then(function (){
+        res.status(200).send(responseMSG.successResponse(null,"Deleted successfully"))
+    }).catch(e =>{
+        res.status(400).send(responseMSG.failureResponse(e.message))
+    })
+}
+
 module.exports = {
     createTask: createTask,
     fetchTask: fetchTask,
     deleteTask: deleteTask,
-    updateTask: updateTask
+    updateTask: updateTask,
+    deleteAllTask: deleteAllTask,
 }

@@ -5,6 +5,7 @@ module.exports = {
     fetchTask: fetchTask,
     deleteTask: deleteTask,
     updateTask: updateTask,
+    deleteAllTask: deleteAllTask,
 }
 
 function createTask(data) {
@@ -20,7 +21,7 @@ function createTask(data) {
 
 function deleteTask(data) {
     const where = {
-        id: data.id
+        task_id: data.task_id
     }
     return new Promise((resolve, reject) => {
         connection.Todo.destroy({ where: where }).then((rowsUpdated) => {
@@ -34,7 +35,7 @@ function deleteTask(data) {
 
 function updateTask(data) {
     const where = {
-        id: data.id
+        task_id: data.task_id
     }
     return new Promise((resolve, reject) => {
         connection.Todo.update(data, { where: where }).then((rowsUpdated) => {
@@ -55,4 +56,15 @@ function fetchTask() {
             return;
         });
     });
+}
+
+function deleteAllTask() {
+    return new Promise((resolve, reject) => {
+        connection.Todo.destroy({ where: {} }).then(task => {
+            resolve(task);
+        }).catch(err => {
+            reject(err);
+            return;
+        })
+    })
 }
