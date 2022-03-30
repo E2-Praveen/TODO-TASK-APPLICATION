@@ -42,10 +42,20 @@ function deleteAllTask(req,res){
     })
 }
 
+function deleteRandomTask(req,res){
+    return TodoTaskDAO.deleteRandomTask(req.body).then(function (){
+        res.status(200).send(responseMSG.successResponse(null,"Deleted successfully"))
+    }).catch(e =>{
+        res.status(400).send(responseMSG.failureResponse(e.message))
+    })
+}
+
+
 module.exports = {
     createTask: createTask,
     fetchTask: fetchTask,
     deleteTask: deleteTask,
     updateTask: updateTask,
     deleteAllTask: deleteAllTask,
+    deleteRandomTask: deleteRandomTask,
 }

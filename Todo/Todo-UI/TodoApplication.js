@@ -38,7 +38,7 @@ const updateItem = function (itemIndex, newValue) {
             task_id: newItem.task_id
         })
     })
-        .then((response) => response.json().then(data =>({
+        .then((response) => response.json().then(data => ({
             data: data,
             status: response.status
         })))
@@ -79,7 +79,7 @@ const removeData = function (itemData) {
             task_id: itemData.task_id
         })
     })
-        .then((response) => response.json().then(data=>({
+        .then((response) => response.json().then(data => ({
             data: data,
             status: response.status
         })))
@@ -132,7 +132,7 @@ const handleItem = function (itemData) {
                         task_id: currentItem.task_id
                     })
                 })
-                    .then((response) => response.json().then(data=>({
+                    .then((response) => response.json().then(data => ({
                         data: data,
                         status: response.status
                     })))
@@ -207,7 +207,7 @@ const getList = async function () {
             newvar = res.data.data
             if (res.status == 200) {
                 return;
-            }else{
+            } else {
                 iziToast.error({
                     title: 'Error',
                     message: res.data.message,
@@ -228,7 +228,7 @@ const getList = async function () {
             const iconClass = item.completed ? "bi-check-circle-fill" : "bi-check-circle";
             itemList.insertAdjacentHTML(
                 "beforeend",
-                `<li class="list-group-item">
+                `<li class="list-group-item"><input type="checkbox" onclick="check(${item.task_id})">
           <span class="title" data-time="${item.createdAt}">${item.task}</span> 
           <span class="icons">
               <a href="#" data-done title="click to complete"><i class="bi ${iconClass} green"></i></a>
@@ -238,6 +238,7 @@ const getList = async function () {
         </li>`
             );
             handleItem(item);
+            check(item)
         });
     } else {
         itemList.insertAdjacentHTML(
@@ -262,7 +263,7 @@ const getList2 = function (newvar) {
             const iconClass = item.completed ? "bi-check-circle-fill" : "bi-check-circle";
             itemList.insertAdjacentHTML(
                 "beforeend",
-                `<li class="list-group-item">
+                `<li class="list-group-item"><input type="checkbox">
           <span class="title" data-time="${item.createdAt}">${item.task}</span> 
           <span class="icons">
               <a href="#" data-done title="click to complete"><i class="bi ${iconClass} green"></i></a>
@@ -376,7 +377,7 @@ function deleteAll() {
                     'Content-Type': 'application/json'
                 },
             })
-                .then((response) => response.json().then(data=>({
+                .then((response) => response.json().then(data => ({
                     data: data,
                     status: response.status
                 })))
@@ -413,4 +414,24 @@ function deleteAll() {
             position: 'topRight',
         });
     }
+}
+
+function check(item) {
+    
+    // newvar.forEach((item) => {
+    //     console.log(item.task_id)
+    // })
+    // newvar.forEach((item) => {
+    //     if (item.querySelector(".title").getAttribute("data-time") == newvar.createdAt) {
+
+    //     }
+    // })
+    // const items = document.querySelectorAll(".list-group-item");
+    // for (i = 0; newvar.length > 0; i++) {
+    //     items.forEach((item) => {
+    //         if (item.querySelector(".title").getAttribute("data-time") == newvar.createdAt) {
+    //             console.log(item)
+    //         }
+    //     })
+    // }
 }
